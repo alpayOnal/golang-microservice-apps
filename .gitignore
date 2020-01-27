@@ -1,2 +1,4 @@
 .idea
 .DS_Store
+./micro_app_k2m/libs
+./micro_app/libs
