@@ -1,6 +1,6 @@
-# Golang Sample Microservices with Kafka and Mongodb
+# Sample Golang  Microservices with Kafka and Mongodb
 
-The Sample Microservices
+Sample Golang  Microservices
 
 -------------------------
 - [Requirements](#requirements)
