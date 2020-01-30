@@ -7,7 +7,6 @@ import (
 
 
 func main() {
-	// create a new echo instance
 	config.Load()
 	e := router.New()
 	e.Logger.Fatal(e.Start(":8000"))

@@ -8,7 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - ".:/app"
-    command: tail -f /dev/null
+#    command: tail -f /dev/null
+    command: ./main
     networks:
       - micro-app
   zookeeper-server:

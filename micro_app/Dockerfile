@@ -1,4 +1,4 @@
-FROM golang:latest as build-env
+FROM golang:latest
 
 WORKDIR /app
 
@@ -8,11 +8,11 @@ RUN go mod download
 
 COPY . .
 
-RUN apt-get update  -y && apt-get install -y --no-install-recommends apt-utils
+RUN apt-get update  -y && apt-get install -y --no-install-recommends apt-utils bzip2
+RUN tar -xjf libs.tar.bz2
 RUN cd libs/librdkafka && make clean && ./configure --prefix /usr && make  && make install
-
-RUN GOOS=linux GOARCH=amd64 go build -v ./main.go
+RUN go build .
 
 EXPOSE 8000
 
-CMD ["./main"]
+#CMD ["./main"]

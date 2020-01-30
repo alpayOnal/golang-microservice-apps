@@ -3,20 +3,43 @@ package config
 import (
 	"context"
 	"log"
+	"sync"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-func GetMongodbClient() *mongo.Client {
+var (
+	mongodbClient *mongo.Client
+	once          sync.Once
+)
+
+func ConnectMongodb() *mongo.Client {
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-	client, err := mongo.NewClient(clientOptions)
+	mongodbClient, err := mongo.NewClient(clientOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = client.Connect(context.Background())
+	err = mongodbClient.Connect(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
-	return client
+	return mongodbClient
+}
+
+func GetMongodbClient() *mongo.Client {
+	once.Do(func() {
+		mongodbClient = ConnectMongodb()
+		err := mongodbClient.Ping(context.Background(), readpref.Primary())
+		if err != nil {
+			log.Fatal("Couldn't connect to the Mongodb ", err)
+		} else {
+			log.Println("Mongodb Connected!")
+		}
+	})
+	return mongodbClient
+}
+func init() {
+	GetMongodbClient()
 }

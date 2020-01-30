@@ -9,7 +9,10 @@ import (
 func MainGroup(e *echo.Echo) {
 	e.GET("/health-check", handlers.HealthCheck)
 
-	//e.GET("/items/:data", handlers.GetItems)
+	//e.GET("/items/", handlers.GetItems)
+	e.GET("/items/:id", handlers.GetItem)
+	e.GET("/items", handlers.GetItems)
+
 	e.POST("/items", handlers.AddItem)
 
 }

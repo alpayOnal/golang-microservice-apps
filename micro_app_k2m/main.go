@@ -4,12 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 
-
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 
 	"micro_apps/micro_app_k2m/config"
 	"micro_apps/micro_app_k2m/types"
@@ -57,22 +54,17 @@ func receiveFromKafka() {
 
 func saveItemToMongo(jobString string) {
 
-	c := config.GetMongodbClient()
-	err := c.Ping(context.Background(), readpref.Primary())
-	if err != nil {
-		log.Fatal("Couldn't connect to the database", err)
-	} else {
-		log.Println("Connected!")
-	}
+	mc := config.ConnectMongodb()
+	collection := mc.Database("testing").Collection("items")
 	fmt.Println(jobString)
 	fmt.Println("Save to MongoDB")
 
-	collection := c.Database("testing").Collection("items")
+	collection = mc.Database("testing").Collection("items")
 
 	//Save data into Job struct
 	var item types.Item
 	b := []byte(jobString)
-	err = json.Unmarshal(b, &item)
+	err := json.Unmarshal(b, &item)
 	if err != nil {
 		panic(err)
 	}
