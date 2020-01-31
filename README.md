@@ -38,9 +38,9 @@ Example: http://localhost:8000/items
 Request body:
     
     {
-        "title": "item title 111",
-        "description":"item description 111",
-        "company":"item company 3",
+        "title": "item title",
+        "description":"item description",
+        "company":"item company",
         "price":1240,
         "currency":"EUR"
     }
