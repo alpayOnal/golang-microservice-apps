@@ -8,6 +8,7 @@ services:
       - ".:/app"
     networks:
       - micro-app
+
   mongodb:
     image: mongo
     ports:
@@ -22,3 +23,5 @@ volumes:
 
 networks:
   micro-app:
+    external:
+      name: micro_app_micro-app

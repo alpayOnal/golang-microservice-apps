@@ -2,3 +2,5 @@
 .DS_Store
 micro_app_k2m/libs
 micro_app/libs
+micro_app/main
+micro_app_k2m/main
