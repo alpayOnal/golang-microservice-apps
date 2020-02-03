@@ -3,9 +3,8 @@ kafka:
   port: 9092
 
 mongodb:
-  host: "localhost"
+  host: "mongodb"
   port: 27017
 
 server:
   port: 8080
-

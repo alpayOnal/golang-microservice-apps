@@ -2,8 +2,9 @@
 
 Sample Golang Microservices
 
-Micro app : request to kafka
-Micro app k2m : kafka to mongodb
+    Micro app : request to kafka
+    
+    Micro app k2m : kafka to mongodb
 
 ![Flow](flow.png)
 
