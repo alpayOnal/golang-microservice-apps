@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"sync"
 
@@ -15,8 +16,13 @@ var (
 	once          sync.Once
 )
 
+type MongoDB struct {
+	Host string
+	Port string
+}
+
 func ConnectMongodb() *mongo.Client {
-	clientOptions := options.Client().ApplyURI("mongodb://mongodb:27017")
+	clientOptions := options.Client().ApplyURI(GetMongodbUri())
 	mongodbClient, err := mongo.NewClient(clientOptions)
 	if err != nil {
 		log.Fatal(err)
@@ -34,12 +40,15 @@ func GetMongodbClient() *mongo.Client {
 		err := mongodbClient.Ping(context.Background(), readpref.Primary())
 		if err != nil {
 			log.Fatal("Couldn't connect to the Mongodb ", err)
-		} else {
-			log.Println("Mongodb Connected!")
 		}
 	})
 	return mongodbClient
 }
+
+func GetMongodbUri() string {
+	return fmt.Sprintf("mongodb://%s:%s", configuration.MongoDB.Host, configuration.MongoDB.Port)
+}
+
 func init() {
 	GetMongodbClient()
 }

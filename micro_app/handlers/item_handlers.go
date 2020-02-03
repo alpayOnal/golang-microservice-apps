@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	//"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/labstack/echo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -86,7 +87,6 @@ func saveItemToKafka(item types.Item) {
 	jsonString, _ := json.Marshal(item)
 
 	itemString := string(jsonString)
-	fmt.Print(config.GetKafkaConfig())
 	p, err := kafka.NewProducer(config.GetKafkaConfig())
 	if err != nil {
 		panic(err)
