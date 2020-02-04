@@ -27,7 +27,7 @@ func AddItem(c echo.Context) error {
 		log.Fatalf("Failed reading the request body %s", err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
 	}
-	saveItemToKafka(item)
+	SaveItemToKafka(item)
 	log.Printf("this is your item %#v", item)
 	return c.String(http.StatusOK, "We got your Item!!!")
 }
@@ -82,7 +82,7 @@ func GetItems(c echo.Context) error {
 	return c.JSON(http.StatusOK, itemList)
 }
 
-func saveItemToKafka(item types.Item) {
+func SaveItemToKafka(item types.Item) {
 
 	jsonString, _ := json.Marshal(item)
 
