@@ -9,17 +9,16 @@ import (
 	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	//"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/labstack/echo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"micro_apps/micro_app/config"
-	"micro_apps/micro_app/types"
+	"micro_apps/micro_app/models"
 )
 
 func AddItem(c echo.Context) error {
-	item := types.NewItem()
+	item := models.NewItem()
 	defer c.Request().Body.Close()
 
 	err := json.NewDecoder(c.Request().Body).Decode(&item)
@@ -38,7 +37,7 @@ func GetItem(c echo.Context) error {
 	mc := config.GetMongodbClient()
 	collection := mc.Database("testing").Collection("items")
 
-	var item types.Item
+	var item models.Item
 	objID, _ := primitive.ObjectIDFromHex(id)
 
 	filter := bson.M{"_id": objID}
@@ -55,10 +54,10 @@ func GetItems(c echo.Context) error {
 	mc := config.GetMongodbClient()
 	collection := mc.Database("testing").Collection("items")
 
-	//var item types.Item
+	//var item models.Item
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	cur, err := collection.Find(ctx, bson.D{})
-	var itemList []types.Item
+	var itemList []models.Item
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -66,7 +65,7 @@ func GetItems(c echo.Context) error {
 	for cur.Next(ctx) {
 		var result bson.M
 		err := cur.Decode(&result)
-		var item types.Item
+		var item models.Item
 		record, _ := json.Marshal(result)
 		err = json.Unmarshal(record, &item)
 		if err != nil {
@@ -82,7 +81,7 @@ func GetItems(c echo.Context) error {
 	return c.JSON(http.StatusOK, itemList)
 }
 
-func SaveItemToKafka(item types.Item) {
+func SaveItemToKafka(item models.Item) {
 
 	jsonString, _ := json.Marshal(item)
 

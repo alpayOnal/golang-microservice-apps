@@ -21,7 +21,7 @@ type MongoDB struct {
 	Port string
 }
 
-func ConnectMongodb() *mongo.Client {
+func newMongoClient() *mongo.Client {
 	clientOptions := options.Client().ApplyURI(GetMongodbUri())
 	mongodbClient, err := mongo.NewClient(clientOptions)
 	if err != nil {
@@ -36,7 +36,7 @@ func ConnectMongodb() *mongo.Client {
 
 func GetMongodbClient() *mongo.Client {
 	once.Do(func() {
-		mongodbClient = ConnectMongodb()
+		mongodbClient = newMongoClient()
 		err := mongodbClient.Ping(context.Background(), readpref.Primary())
 		if err != nil {
 			log.Fatal("Couldn't connect to the Mongodb ", err)

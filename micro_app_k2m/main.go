@@ -9,7 +9,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 
 	"micro_apps/micro_app_k2m/config"
-	"micro_apps/micro_app_k2m/types"
+	"micro_apps/micro_app_k2m/models"
 )
 
 func main() {
@@ -62,7 +62,7 @@ func saveItemToMongo(jobString string) {
 	collection = mc.Database("testing").Collection("items")
 
 	//Save data into Job struct
-	var item types.Item
+	var item models.Item
 	b := []byte(jobString)
 	err := json.Unmarshal(b, &item)
 	if err != nil {

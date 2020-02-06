@@ -4,12 +4,12 @@ import (
 
 	"github.com/labstack/echo"
 
-	"micro_apps/micro_app/types"
+	"micro_apps/micro_app/models"
 )
 
 func HealthCheck(c echo.Context) error {
 
-	resp := types.HealthCheckResponse{
+	resp := models.HealthCheckResponse{
 		Message: "Everything is good!",
 	}
 	return c.JSON(http.StatusOK, resp)

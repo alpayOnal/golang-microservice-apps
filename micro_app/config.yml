@@ -5,6 +5,7 @@ kafka:
 mongodb:
   host: "mongodb"
   port: 27017
+  timeout: 20
 
 server:
   port: 8080
