@@ -17,7 +17,25 @@ import (
 	"micro_apps/micro_app/models"
 )
 
-func AddItem(c echo.Context) error {
+// ResponseError represent the reseponse error struct
+type ResponseError struct {
+	Message string `json:"message"`
+}
+
+// ItemHandler  represent the httphandler for item
+type ItemHandler struct {
+}
+
+func NewItemHandler(e *echo.Echo) {
+	handler := &ItemHandler{}
+
+	e.GET("/items/:id", handler.GetItem)
+	e.GET("/items", handler.GetItems)
+
+	e.POST("/items", handler.AddItem)
+}
+
+func (i *ItemHandler) AddItem(c echo.Context) error {
 	item := models.NewItem()
 	defer c.Request().Body.Close()
 
@@ -31,7 +49,7 @@ func AddItem(c echo.Context) error {
 	return c.String(http.StatusOK, "We got your Item!!!")
 }
 
-func GetItem(c echo.Context) error {
+func (i *ItemHandler) GetItem(c echo.Context) error {
 	id := c.Param("id")
 
 	mc := config.GetMongodbClient()
@@ -50,7 +68,7 @@ func GetItem(c echo.Context) error {
 	return c.JSON(http.StatusOK, item)
 }
 
-func GetItems(c echo.Context) error {
+func (i *ItemHandler) GetItems(c echo.Context) error {
 	mc := config.GetMongodbClient()
 	collection := mc.Database("testing").Collection("items")
 

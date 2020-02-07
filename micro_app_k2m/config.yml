@@ -1,9 +1,8 @@
 kafka:
-  host: "localhost"
+  host: "kafka-server1"
   port: 9092
 
 mongodb:
-  host: "localhost"
+  host: "mongodb"
   port: 27017
-
 

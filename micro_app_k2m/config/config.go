@@ -7,6 +7,7 @@ import (
 )
 
 type Configuration struct {
+	Kafka   Kafka
 	MongoDB MongoDB
 }
 

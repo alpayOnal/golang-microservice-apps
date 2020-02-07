@@ -14,8 +14,6 @@ import (
 
 func main() {
 
-	//Create MongoDB session
-
 	receiveFromKafka()
 
 }
@@ -24,7 +22,7 @@ func receiveFromKafka() {
 
 	fmt.Println("Start receiving from Kafka")
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": "localhost:9092",
+		"bootstrap.servers": config.GetKafkaHost(),
 		"group.id":          "group-id-1",
 		"auto.offset.reset": "earliest",
 	})
