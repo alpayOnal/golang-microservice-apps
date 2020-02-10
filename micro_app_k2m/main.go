@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-
 	receiveFromKafka()
 
 }

@@ -1,9 +1,9 @@
 kafka:
-  host: "kafka-server1"
+  host: "localhost"
   port: 9092
 
 mongodb:
-  host: "mongodb"
+  host: "localhost"
   port: 27017
   timeout: 20
 

@@ -3,12 +3,13 @@ package config
 import (
 	"context"
 	"fmt"
-	"log"
 	"sync"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -40,6 +41,8 @@ func GetMongodbClient() *mongo.Client {
 		err := mongodbClient.Ping(context.Background(), readpref.Primary())
 		if err != nil {
 			log.Fatal("Couldn't connect to the Mongodb ", err)
+		} else {
+			log.Info("Connected to the Mongodb ")
 		}
 	})
 	return mongodbClient

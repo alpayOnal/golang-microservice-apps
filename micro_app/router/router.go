@@ -1,10 +1,8 @@
 package router
 
 import (
-
 	"github.com/labstack/echo"
 
-	"micro_apps/micro_app/api"
 	"micro_apps/micro_app/api/handlers"
 	"micro_apps/micro_app/api/middlewares"
 )
@@ -20,11 +18,8 @@ func New() *echo.Echo {
 	middlewares.SetMainMiddleWares(e)
 	middlewares.SetAdminMiddlewares(adminGroup)
 
-	//set main routes
-	api.MainGroup(e)
 	handlers.NewItemHandler(e)
-
-	//set groupRoutes
-	api.AdminGroup(adminGroup)
+	handlers.NewAdminHandler(e)
+	handlers.NewHealthCheckHandler(e)
 	return e
 }

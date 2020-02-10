@@ -1,4 +1,5 @@
 package handlers
+
 import (
 	"net/http"
 
@@ -7,7 +8,17 @@ import (
 	"micro_apps/micro_app/models"
 )
 
-func HealthCheck(c echo.Context) error {
+type HealthCheckHandler struct {
+}
+
+func NewHealthCheckHandler(e *echo.Echo) {
+	handler := &AdminHandler{}
+
+	e.GET("/", handler.MainAdmin)
+
+}
+
+func (h *HealthCheckHandler) HealthCheck(c echo.Context) error {
 
 	resp := models.HealthCheckResponse{
 		Message: "Everything is good!",
