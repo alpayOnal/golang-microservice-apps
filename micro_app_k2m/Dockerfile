@@ -5,8 +5,9 @@ WORKDIR /app
 COPY ./ /app
 
 RUN apt-get update  -y && apt-get install -y --no-install-recommends apt-utils bzip2
-RUN tar xjf libs.tar.bz2
-RUN cd libs/librdkafka && make clean && ./configure --prefix /usr && make  && make install
+RUN cp libs.tar.bz2 /tmp
+RUN cd /tmp && tar xjf libs.tar.bz2
+RUN cd /tmp/libs/librdkafka && make clean && ./configure --prefix /usr && make  && make install
 
 RUN go mod download
 
