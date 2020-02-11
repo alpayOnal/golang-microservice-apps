@@ -5,4 +5,4 @@ kafka:
 mongodb:
   host: "localhost"
   port: 27017
-
+  timeout: 20

@@ -15,7 +15,6 @@ func NewHealthCheckHandler(e *echo.Echo) {
 	handler := &AdminHandler{}
 
 	e.GET("/", handler.MainAdmin)
-
 }
 
 func (h *HealthCheckHandler) HealthCheck(c echo.Context) error {

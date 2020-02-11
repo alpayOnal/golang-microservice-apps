@@ -25,7 +25,7 @@ func init() {
 	itemRepository = ItemRepository{
 		config.GetMongodbClient(),
 		"testing",
-		20,
+		config.GetConfiguration().MongoDB.Timeout,
 	}
 }
 
@@ -71,7 +71,7 @@ func (r *ItemRepository) ItemById(id string) (models.Item, error) {
 	objID, _ := primitive.ObjectIDFromHex(id)
 
 	filter := bson.M{"_id": objID}
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), r.timeout*time.Second)
 	err := collection.FindOne(ctx, filter).Decode(&item)
 	if err != nil {
 		return item, err

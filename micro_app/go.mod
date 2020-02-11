@@ -6,6 +6,7 @@ require (
 	github.com/DataDog/zstd v1.4.4 // indirect
 	github.com/confluentinc/confluent-kafka-go v1.3.0
 	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/go-redis/redis v6.15.7+incompatible
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/labstack/echo v3.3.10+incompatible

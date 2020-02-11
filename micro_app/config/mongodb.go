@@ -4,22 +4,24 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
+	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-
-	log "github.com/sirupsen/logrus"
 )
 
 var (
 	mongodbClient *mongo.Client
-	once          sync.Once
+	onceMongodbClient sync.Once
+
 )
 
 type MongoDB struct {
 	Host string
 	Port string
+	Timeout time.Duration
 }
 
 func newMongoClient() *mongo.Client {
@@ -36,7 +38,7 @@ func newMongoClient() *mongo.Client {
 }
 
 func GetMongodbClient() *mongo.Client {
-	once.Do(func() {
+	onceMongodbClient.Do(func() {
 		mongodbClient = newMongoClient()
 		err := mongodbClient.Ping(context.Background(), readpref.Primary())
 		if err != nil {

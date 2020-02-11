@@ -27,7 +27,7 @@ func GetItemRepository() *ItemRepository {
 	return &itemRepository
 }
 
-func (i *ItemRepository) Add(item models.Item) error {
+func (i *ItemRepository) Store(item models.Item) error {
 
 	jsonString, _ := json.Marshal(item)
 	itemString := string(jsonString)
