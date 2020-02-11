@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	redisClient *redis.Client
+	redisClient     *redis.Client
 	onceRedisClient sync.Once
 )
 
@@ -17,9 +17,7 @@ type Redis struct {
 }
 
 func GetRedisClient() *redis.Client {
-	onceRedisClient.Do(func () {
-		log.Info("connect to the Redis ")
-
+	onceRedisClient.Do(func() {
 		opts, err := redis.ParseURL(GetRedisUrl())
 		if err != nil {
 			log.Fatal("Couldn't connect to the Redis ", err)
@@ -29,6 +27,8 @@ func GetRedisClient() *redis.Client {
 		if err != nil {
 			log.Fatal("Couldn't connect to the Redis ", err)
 		}
+		log.Info("Connect to the Redis ")
+
 	})
 	return redisClient
 }
