@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/DataDog/zstd v1.4.4 // indirect
 	github.com/confluentinc/confluent-kafka-go v1.3.0
+	github.com/go-redis/redis v6.15.7+incompatible
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/go-cmp v0.4.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect

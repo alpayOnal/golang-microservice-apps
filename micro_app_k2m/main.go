@@ -5,8 +5,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/alpayOnal/golang-microservice-apps/micro_app/repository/kafka"
-	"micro_apps/micro_app/repository/mongodb"
+	"micro_apps/micro_app_k2m/repository/kafka"
+	"micro_apps/micro_app_k2m/repository/mongodb"
 )
 
 func main() {
