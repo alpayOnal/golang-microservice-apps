@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
+	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -78,4 +79,26 @@ func (r *ItemRepository) ItemById(id string) (models.Item, error) {
 	}
 	item.Id = id
 	return item, nil
+}
+
+func (r *ItemRepository) Store(itemJsonString string) {
+	mc := config.GetMongodbClient()
+	collection := mc.Database(r.database).Collection("items")
+
+	collection = mc.Database("testing").Collection("items")
+
+	//Save data into Job struct
+	var item models.Item
+	b := []byte(itemJsonString)
+	err := json.Unmarshal(b, &item)
+	if err != nil {
+		log.Error(err)
+	}
+
+	//Insert item into MongoDB
+	ctx, _ := context.WithTimeout(context.Background(), r.timeout*time.Second)
+	res, err := collection.InsertOne(ctx, item)
+	if res != nil {
+		log.Info("ItemId : %s", res.InsertedID)
+	}
 }

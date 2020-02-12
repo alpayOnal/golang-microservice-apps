@@ -45,7 +45,7 @@ func (i *ItemHandler) AddItem(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, response)
 	}
 
-	kafka.GetItemRepository().Store(item)
+	kafka.NewItemRepository().Store(item)
 	log.Printf("this is your item %#v", item)
 	return c.String(http.StatusOK, "We got your Item!!!")
 }

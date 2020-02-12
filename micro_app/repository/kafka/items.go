@@ -16,27 +16,40 @@ type ItemRepository struct {
 	topic  string
 }
 
-func init() {
+func NewItemRepository(topic string) *ItemRepository {
+	var itemRepository ItemRepository
+	itemRepository.topic = topic
 	itemRepository = ItemRepository{
 		config.GetKafkaConfig(),
-		"items-topic1",
+		itemRepository.topic,
 	}
-}
-
-func GetItemRepository() *ItemRepository {
 	return &itemRepository
 }
 
-func (i *ItemRepository) Store(item models.Item) error {
+func (r *ItemRepository) GetConsumer() (*kafka.Consumer, error) {
+
+	c, err := kafka.NewConsumer(&kafka.ConfigMap{
+		"bootstrap.servers": config.GetKafkaHost(),
+		"group.id":          config.GetConfiguration().Kafka.GroupId,
+		"auto.offset.reset": config.GetConfiguration().Kafka.AutoOffsetReset,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	c.SubscribeTopics([]string{r.topic}, nil)
+	return c, nil
+}
+
+func (r *ItemRepository) Store(item models.Item) error {
 
 	jsonString, _ := json.Marshal(item)
 	itemString := string(jsonString)
-	p, err := kafka.NewProducer(i.config)
+	p, err := kafka.NewProducer(r.config)
 	if err != nil {
 		return err
 	}
-	// Produce messages to topic (asynchronously)
-	topic := i.topic
+	topic := r.topic
 	for _, word := range []string{string(itemString)} {
 		p.Produce(&kafka.Message{
 			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
